@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'gamemaps.dart';
+import 'widgets/compassviewchild.dart';
 
 Map jsonResponse;
 String jsonEmptyError = "Call of Duty Modern Warfare maps could not be loaded.";
@@ -74,7 +75,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String gamemode = "sd";
+  String gamemode = "arena";
   String gameMap = "Shake the screen to get a random map.";
 
   _pickMap(String gamemode) async {
@@ -85,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List _possibleMaps = [];
 
     jsonResponse.forEach((key, value) {
+      print(key);
       if(value.contains(gamemode)){
         _possibleMaps.add(key);
       }
@@ -92,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
    
     setState(() {
       gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length-1)];
+      // String temp = codeToMapName(gameMap);
       print("The map you got was: $gameMap");
     });
 
@@ -114,7 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Container(),
+      body: Container(
+        child: Column(
+          children: [
+            Text(gameMap),
+          ],
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _pickMap(gamemode),
         tooltip: 'Increment',
