@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        fontFamily: 'MW',
         primarySwatch: Colors.blue,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
@@ -72,20 +73,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-  String gamemode = "mp_m_stadium";
+
+  String gamemode = "sd";
   String gameMap = "Shake the screen to get a random map.";
 
-  _pickMap() async {
+  _pickMap(String gamemode) async {
+    
     if (jsonResponse == null) await fetchMaps();
-    Random rng = Random();
-    List mymaps = [];
+
+    final Random rng = Random();
+    List _possibleMaps = [];
+
     jsonResponse.forEach((key, value) {
-      if(value.contains(gamemode))
-        mymaps.add(key);
+      if(value.contains(gamemode)){
+        _possibleMaps.add(key);
+      }
     });
+   
     setState(() {
-      gameMap = mymaps[rng.nextInt(mymaps.length-1)];
+      gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length-1)];
       print("The map you got was: $gameMap");
     });
 
@@ -108,35 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              codeToMapName(gamemode),
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: Container(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _pickMap(),
+        onPressed: () => _pickMap(gamemode),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

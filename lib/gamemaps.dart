@@ -22,6 +22,7 @@ Map mapCode = {
 };
 
 String codeToMapName(String code){
+  assert(code.isNotEmpty, "Argument passed was empty");
   mapCode.forEach((key, value) {
     if( key == code )
       return value[0];
