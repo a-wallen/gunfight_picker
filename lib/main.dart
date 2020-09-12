@@ -4,7 +4,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'gamemaps.dart';
+//import 'gamemaps.dart';
 import 'widgets/compassviewchild.dart';
 
 Map jsonResponse;
@@ -17,6 +17,7 @@ fetchMaps() async {
   if (response.statusCode == 200) {
     jsonResponse = convert.jsonDecode(response.body);
     jsonResponse = jsonResponse["data"];
+    print(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
@@ -73,13 +74,15 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
 
-  String gamemode = "arena";
+class _MyHomePageState extends State<MyHomePage> {
+  
+  String gamemode = "cyber"; // gunfight
   String gameMap = "Shake the screen to get a random map.";
 
   _pickMap(String gamemode) async {
-    
+    //emphasis on error checking
+    assert(gamemode.isNotEmpty);
     if (jsonResponse == null) await fetchMaps();
 
     final Random rng = Random();
@@ -91,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _possibleMaps.add(key);
       }
     });
+
    
     setState(() {
       gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length-1)];
@@ -98,13 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
       print("The map you got was: $gameMap");
     });
 
-    // jsonResponse["data"].forEach((key, value) {
-    //   print("$key, $value");
-    //   });
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -117,12 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Text(gameMap),
-          ],
-        )
+      body: Center(
+        child: Text(gameMap)
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _pickMap(gamemode),
@@ -132,3 +131,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
