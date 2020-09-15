@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Map codeToMap {
+Map codeToMap = {
   ["mp_cave_am"]: Image.network("paste url here"),
   ["mp_farms2_gw"] : ,
   ["mp_spear"] : ,

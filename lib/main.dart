@@ -2,13 +2,23 @@ import "dart:async";
 import "dart:math";
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
+import 'package:gunfight_picker/theme/theme.dart';
 import 'package:http/http.dart' as http;
 
 //import 'gamemaps.dart';
-import 'widgets/compassviewchild.dart';
+import 'widgets/compassview.dart';
+import 'data/codeToName.dart';
 
 Map jsonResponse;
+List mapList = [];
 String jsonEmptyError = "Call of Duty Modern Warfare maps could not be loaded.";
+
+List makeMapList(Map data) {
+  data.forEach((key, value) {
+    mapList.add(codeToMapName(key));
+  });
+  print(mapList);
+}
 
 fetchMaps() async {
   String apiUrl =
@@ -17,7 +27,7 @@ fetchMaps() async {
   if (response.statusCode == 200) {
     jsonResponse = convert.jsonDecode(response.body);
     jsonResponse = jsonResponse["data"];
-    print(jsonResponse);
+    mapList = makeMapList(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
@@ -33,24 +43,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        fontFamily: 'MW',
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      title: 'Gunfight Picker',
+      theme: mw_theme,
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -74,9 +68,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
-  
   String gamemode = "cyber"; // gunfight
   String gameMap = "Shake the screen to get a random map.";
 
@@ -90,24 +82,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
     jsonResponse.forEach((key, value) {
       print(key);
-      if(value.contains(gamemode)){
+      if (value.contains(gamemode)) {
         _possibleMaps.add(key);
       }
     });
 
-   
     setState(() {
-      gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length-1)];
+      gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length - 1)];
       // String temp = codeToMapName(gameMap);
       print("The map you got was: $gameMap");
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -118,10 +106,18 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: middle_green
+          ),
+        ),
       ),
-      body: Center(
-        child: Text(gameMap)
+      body: Column(
+        children: [
+          compassView(context),
+          Text(gameMap),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _pickMap(gamemode),
@@ -131,4 +127,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
