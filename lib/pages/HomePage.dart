@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import "dart:math";
+import 'package:flutter/material.dart';
 
 import 'package:gunfight_picker/widgets/compassview.dart';
+import 'package:gunfight_picker/data/codeToName.dart';
 import 'package:gunfight_picker/main.dart';
 import 'package:gunfight_picker/functions/fetchMaps.dart';
 import 'package:gunfight_picker/theme/theme.dart';
@@ -20,7 +21,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String gamemode = "cyber"; // gunfight
-  String gameMap = "Shake the screen to get a random map.";
+  String gameMap = "mp_cave_am";
   
   _pickMap(String gamemode) async {
     //emphasis on error checking
@@ -55,12 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          compassView(context),
-          Image(
-              image: NetworkImage(
-                  "https://clgraphics.files.wordpress.com/2013/05/picture.gif")
-                  ),
-          Text(gameMap),
+          CompassView(),
+          Text(codeToMap[gameMap]),
         ],
       ),
       floatingActionButton: FloatingActionButton(
