@@ -12,6 +12,7 @@ fetchMaps() async {
   if (response.statusCode == 200) {
     jsonResponse = convert.jsonDecode(response.body);
     jsonResponse = jsonResponse["data"];
+    print(jsonResponse);
     mapList = makeMapList(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
