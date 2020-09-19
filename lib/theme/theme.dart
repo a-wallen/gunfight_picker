@@ -14,9 +14,9 @@ const Gradient compassGradient = LinearGradient(
 );
 
 ThemeData mw_theme = ThemeData(
-  //fontFamily: ,
   appBarTheme: AppBarTheme(
+    centerTitle: true,
     color: lotion,
   ),
-  backgroundColor: lotion,
+  fontFamily: 'MW',
 );
