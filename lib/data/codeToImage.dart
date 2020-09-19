@@ -43,8 +43,10 @@ Map codeToMap = {
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Docks-Winter_320x180.jpg"),
   ["mp_cave"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Azhir-Cave_320x180.jpg"),
-  ["mp_village2"]: Image.network(""),
-  ["mp_m_speed"]: Image.network(""),
+  ["mp_village2"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Hovec-Sawmill_320x180.jpg"),
+  ["mp_m_speed"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Aisle-9_320x180.jpg"),
   ["mp_boneyard_gw"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Zhokov-Boneyard_320x180.jpg"),
   ["mp_petrograd"]: Image.network(
@@ -55,11 +57,12 @@ Map codeToMap = {
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Suldal-Harbor_320x180.jpg"),
   ["mp_m_speedball"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Speedball_320x180.jpg"),
-  ["mp_garden"]: Image.network(""),
+  ["mp_garden"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Cheshire-Park_320x180.jpg"),
   ["mp_m_king"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/King_320x180.jpg"),
   ["mp_aniyah_tac"]: Image.network(
-      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Aniyah-Palace_320x180.jpg"),
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Aniyah-Incursion_320x180.jpg"),
   ["mp_m_cargo"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Cargo_320x180.jpg"),
   ["mp_euphrates"]: Image.network(
@@ -70,7 +73,8 @@ Map codeToMap = {
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Talisk-Backlot_320x180.jpg"),
   ["mp_scrapyard"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Scrapyard_320x180.jpg"),
-  ["mp_deadzone"]: Image.network(""),
+  ["mp_deadzone"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Arklov-Peak_320x180.jpg"),
   ["mp_m_overunder"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Docks_320x180.jpg"),
   ["mp_oilrig"]: Image.network(
@@ -79,15 +83,18 @@ Map codeToMap = {
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Piccadilly_320x180.jpg"),
   ["mp_m_trench"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Trench_320x180.jpg"),
-  ["mp_emporium"]: Image.network(""),
+  ["mp_emporium"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Atlas-Superstore_320x180.jpg"),
   ["mp_m_stack"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Stack_320x180.jpg"),
-  ["mp_m_cage"]: Image.network(""),
+  ["mp_m_cage"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Atrium_320x180.jpg"),
   ["mp_runner_pm"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Gun-Runner-Night_320x180.jpg"),
   ["mp_m_hill"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Hill_320x180.jpg"),
-  ["mp_m_fork"]: Image.network(""),
+  ["mp_m_fork"]: Image.network(
+      "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Bazaar_320x180.jpg"),
   ["mp_port2_gw"]: Image.network(
       "https://www.gamesatlas.com/images/cod-modern-warfare/maps/resized/Port-of-Verdansk_320x180.jpg"),
   ["mp_aniyah"]: Image.network(
