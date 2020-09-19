@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gunfight_picker/pages/Bracket.dart';
 
 //import 'gamemaps.dart';
 import 'functions/fetchMaps.dart';
@@ -18,9 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      //debugShowCheckedModeBanner: false,
       title: 'Gunfight Picker',
       theme: mw_theme,
-      home: MyHomePage(title: 'Gunfight Picker'),
+      //home: MyHomePage(title: 'Gunfight Picker'),
+      home: Bracket(),
     );
   }
 }

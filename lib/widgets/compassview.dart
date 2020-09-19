@@ -29,6 +29,7 @@ class _CompassViewState extends State<CompassView> {
     return Padding(
       padding: EdgeInsets.all(5.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,    
         children: [
          Icon(Icons.arrow_upward),
           Text(
