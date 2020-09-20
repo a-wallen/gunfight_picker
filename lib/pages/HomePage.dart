@@ -1,11 +1,11 @@
 import "dart:math";
 import 'package:flutter/material.dart';
 
-import 'package:gunfight_picker/widgets/compassview.dart';
-import 'package:gunfight_picker/data/codeToName.dart';
 import 'package:gunfight_picker/main.dart';
 import 'package:gunfight_picker/functions/fetchMaps.dart';
 import 'package:gunfight_picker/theme/theme.dart';
+import 'MapPicker.dart';
+import 'BracketPage.dart';
 
 List mapList = [];
 
@@ -19,11 +19,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  int _navBarIndex = 0;
   String gamemode = "cyber"; // gunfight
   String gameMap = "mp_cave_am";
+
+  static List<Widget> _pages = <Widget>[
+    MapPickerPage(),
+    BracketPage(),
+  ];
   
-  _pickMap(String gamemode) async {
+  void _onNavBarTap(int index) {
+    setState(() {
+      _navBarIndex = index;
+    });
+  }
+  void _pickMap(String gamemode) async {
     //emphasis on error checking
     assert(gamemode.isNotEmpty);
     if (jsonResponse == null) await fetchMaps();
@@ -54,17 +64,31 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: middle_green),
         ),
       ),
-      body: Column(
-        children: [
-          CompassView(),
-          Text(codeToMap[gameMap]),
-        ],
+      body: Container(
+        margin: EdgeInsets.all(10.0),
+        width: MediaQuery.of(context).size.width,
+        child: _pages.elementAt(_navBarIndex)
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _pickMap(gamemode),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: "Maps",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: "Brackets",
+          ),
+        ],
+        currentIndex: _navBarIndex,
+        selectedItemColor: middle_green,
+        onTap: _onNavBarTap,
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => _pickMap(gamemode),
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
