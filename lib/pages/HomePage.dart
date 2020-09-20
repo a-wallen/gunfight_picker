@@ -1,13 +1,9 @@
-import "dart:math";
 import 'package:flutter/material.dart';
 
-import 'package:gunfight_picker/main.dart';
 import 'package:gunfight_picker/functions/fetchMaps.dart';
 import 'package:gunfight_picker/theme/theme.dart';
 import 'MapPicker.dart';
 import 'BracketPage.dart';
-
-List mapList = [];
 
 class MyHomePage extends StatefulWidget {
   //constructor
@@ -19,39 +15,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   int _navBarIndex = 0;
-  String gamemode = "cyber"; // gunfight
-  String gameMap = "mp_cave_am";
 
   static List<Widget> _pages = <Widget>[
     MapPickerPage(),
     BracketPage(),
   ];
   
+  @override
+  void initState() {
+    fetchMaps().then((value) {
+      print("Json Response Fetched");
+    });
+    super.initState();
+  }
+
   void _onNavBarTap(int index) {
     setState(() {
       _navBarIndex = index;
-    });
-  }
-  void _pickMap(String gamemode) async {
-    //emphasis on error checking
-    assert(gamemode.isNotEmpty);
-    if (jsonResponse == null) await fetchMaps();
-
-    final Random rng = Random();
-    List _possibleMaps = [];
-  // bad comment
-    jsonResponse.forEach((key, value) {
-      print(key);
-      if (value.contains(gamemode)) {
-        _possibleMaps.add(key);
-      }
-    });
-
-    setState(() {
-      gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length - 1)];
-      // String temp = codeToMapName(gameMap);
-      print("The map you got was: $gameMap");
     });
   }
 

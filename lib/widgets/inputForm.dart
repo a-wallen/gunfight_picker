@@ -9,9 +9,10 @@ class _InputFormState extends State<InputForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50.0,
-      height: 200.0,
+      width: 200.0,
+      height: 100.0,
       color: Colors.blue,
+      child: Text("Ezra's Widget"),
     );
   }
 }

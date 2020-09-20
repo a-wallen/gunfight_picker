@@ -1,8 +1,7 @@
-import 'dart:ui';
 import "dart:math";
 
 import 'package:flutter/material.dart';
-import 'package:gunfight_picker/main.dart';
+import 'package:gunfight_picker/functions/fetchMaps.dart';
 import 'package:gunfight_picker/theme/theme.dart';
 import 'package:gunfight_picker/widgets/compassview.dart';
 import 'package:gunfight_picker/data/codeToImage.dart';
@@ -28,7 +27,6 @@ class _MapPickerPageState extends State<MapPickerPage> {
     List _possibleMaps = [];
     // bad comment
     jsonResponse.forEach((key, value) {
-      print(key);
       if (value.contains(gamemode)) {
         _possibleMaps.add(key);
       }
@@ -36,8 +34,6 @@ class _MapPickerPageState extends State<MapPickerPage> {
 
     setState(() {
       gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length - 1)];
-      // String temp = codeToMapName(gameMap);
-      print("The map you got was: $gameMap");
     });
   }
 
@@ -45,6 +41,7 @@ class _MapPickerPageState extends State<MapPickerPage> {
     return Container(
       child: Column(
         children: [
+          // CompassView(),
           Container(
             padding: EdgeInsets.all(5.0),
             child: Column(

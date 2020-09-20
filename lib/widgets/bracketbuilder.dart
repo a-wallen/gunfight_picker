@@ -11,7 +11,8 @@ class _BracketBuilderState extends State<BracketBuilder> {
     return Container(
       width: 200.0,
       height: 100.0,
-      color: Colors.black,
+      color: Colors.red,
+      child: Text("Hector's Widget"),
     );
   }
 }

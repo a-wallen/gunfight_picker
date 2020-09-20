@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gunfight_picker/functions/fetchMaps.dart';
+import 'package:gunfight_picker/data/codeToImage.dart';
+import 'package:gunfight_picker/data/codeToName.dart';
 import 'package:gunfight_picker/theme/theme.dart';
 
 class CompassView extends StatefulWidget {
@@ -8,65 +11,50 @@ class CompassView extends StatefulWidget {
 
 class _CompassViewState extends State<CompassView> {
   @override
-  List tempMaps = [
-    "Cyber Attack",
-    "Gunfight",
-    "Search & Destroy",
-    "Infected",
-    "Shoot the Ship"
-  ];
-  int index = 0;
+  List gameModeList = [];
 
-  void aarowNaviateOnPressed(int direction) {
-    index += direction;
-    if (index < 0) index = tempMaps.length - 1;
-    if (index > tempMaps.length) index = 0;
-    print(index);
-    print(tempMaps[index]);
+  @override
+  void initState() {
+    makeGameModeList().then((value) {
+      print("Map List Built");
+    });
+    super.initState();
   }
 
-  Widget compassItem(String str, int i) {
-    return Padding(
-      padding: EdgeInsets.all(5.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,    
-        children: [
-         Icon(Icons.arrow_upward),
-          Text(
-            str,
-          ),
-        ],
-      ),
-    );
+  Future makeGameModeList() async {
+    List temp = [];
+    jsonResponse.forEach((key, value) {
+      print(value);
+      temp.add(codeToMap[key]);
+    });
+    setState(() {
+      gameModeList = temp;
+    });
   }
 
-  Widget compass() {
-    return Row(
-      children: [
-        compassItem(tempMaps[index], index),
-        compassItem(tempMaps[index + 1], index),
-        compassItem(tempMaps[index + 2], index),
-      ],
-    );
+  Widget compassItem(String mode) {
+    return FlatButton(
+        onPressed: null,
+        child: Column(
+          children: [
+            Icon(Icons.arrow_upward),
+            Text(mode),
+          ],
+        ));
   }
 
   Widget build(BuildContext context) {
-
-    double length = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
-
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.0),
-        height: length / 8,
-        color: Colors.blueGrey,
-        child: GestureDetector(
-          onHorizontalDragDown: null,
-          child: Stack(
-            children: [
-              compass(),
-            ],
-          ),
-        ));
+      height: 100.0,
+      width: 400.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: gameModeList.length,
+        itemBuilder: (context, index) {
+          return Text(gameModeList[index]);
+        },
+      ),
+    );
   }
 }
 

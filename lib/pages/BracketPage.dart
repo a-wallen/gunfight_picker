@@ -15,8 +15,8 @@ class _BracketPageState extends State<BracketPage> {
       color: Colors.white38,
       child: Column(
         children: [
-          BracketBuilder(),
           InputForm(),
+          BracketBuilder(),
         ],
       ),
     );
