@@ -15,8 +15,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   int _navBarIndex = 0;
+  PageController _pageController = PageController(initialPage: 0);
 
   static List<Widget> _pages = <Widget>[
     MapPickerPage(),
@@ -31,9 +31,23 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   void _onNavBarTap(int index) {
+    _pageController.animateToPage(
+        index,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.easeOut,
+    );
+  }
+
+  _onPageChanged(int i) {
     setState(() {
-      _navBarIndex = index;
+      _navBarIndex = _pageController.page.round();
     });
   }
 
@@ -49,17 +63,23 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         margin: EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
-        child: _pages.elementAt(_navBarIndex)
+        // child: _pages.elementAt(_navBarIndex)
+        child: PageView(controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: _pages
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: "Maps",
+            // label: "Maps",
+            title: Text("Maps"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            label: "Brackets",
+            // label: "Brackets",
+            title: Text("Brackets"),
           ),
         ],
         currentIndex: _navBarIndex,
