@@ -36,7 +36,7 @@ class Player {
     return name;
   }
 
-  double get getSkill {
+  int get getSkill {
     return skill;
   }
 }
