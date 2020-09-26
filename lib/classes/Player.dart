@@ -27,7 +27,9 @@ class Player {
       intList.add(int.parse(list[i]));
     }
     //converts days and hours to minutes, then sums with minutes to get the total minutes
-    return (intList[0] * 24 * 60 + intList[1] * 60 + intList[2]);
+    return (intList[0] * 24 * 60 +
+        intList[1] * 60 +
+        intList[2]); //assumes intList.length = 3
     //source for split: https://www.tutorialkart.com/dart/dart-split-string/#:~:text=Dart%20Split%20String&text=You%20can%20split%20a%20string,split()%20method.&text=The%20function%20returns%20a%20list%20of%20strings
     //source for int.parse: https://bezkoder.com/dart-parse-string-to-double-int/
   }
