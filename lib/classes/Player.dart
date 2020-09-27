@@ -1,3 +1,5 @@
+import 'package:string_validator/string_validator.dart';
+
 //user will input D:H:M, I need to convert that
 //Days >= 0, Days <= 365
 //Hours: 0-23
@@ -37,6 +39,18 @@ class Player {
         intList[2]); //assumes intList.length = 3
     //source for split: https://www.tutorialkart.com/dart/dart-split-string/#:~:text=Dart%20Split%20String&text=You%20can%20split%20a%20string,split()%20method.&text=The%20function%20returns%20a%20list%20of%20strings
     //source for int.parse: https://bezkoder.com/dart-parse-string-to-double-int/
+  }
+
+  void set player_name(String name) {
+    if (isAlpha(name)) this.name = name;
+  }
+
+  void set player_kdratio(String kd) {
+    if (isFloat(kd)) this.kdratio = double.parse(kd);
+  }
+
+  void set player_hours(String hours) {
+    if (isDate(hours)) this.hoursPlayed = 0;
   }
 
   String get getName {

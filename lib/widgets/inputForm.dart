@@ -111,18 +111,6 @@ class PlayerCard extends StatelessWidget {
                     skillDisplayField("rank", player.getSkill.toString()),
                     skillDisplayField("kd ratio", player.kdratio.toString()),
                     skillDisplayField("hours", player.hoursPlayed.toString()),
-                    // Text(
-                    //   "rank",
-                    //   textScaleFactor: 0.8,
-                    // ),
-                    // Text(
-                    //   "k/d",
-                    //   textScaleFactor: 0.8,
-                    // ),
-                    // Text(
-                    //   "hours",
-                    //   textScaleFactor: 0.8,
-                    // ),
                   ],
                 ),
               ),
