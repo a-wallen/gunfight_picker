@@ -10,27 +10,13 @@ class CompassView extends StatefulWidget {
 }
 
 class _CompassViewState extends State<CompassView> {
-  @override
-  List gameModeList = [];
 
-  @override
-  void initState() {
-    makeGameModeList().then((value) {
-      print("Map List Built");
-    });
-    super.initState();
-  }
-
-  Future makeGameModeList() async {
-    List temp = [];
-    jsonResponse.forEach((key, value) {
-      print(value);
-      temp.add(codeToMap[key]);
-    });
-    setState(() {
-      gameModeList = temp;
-    });
-  }
+  // void initState() {
+  //   makeGameModeList().then((value) {
+  //     print("Json Response Fetched");
+  //   });
+  //   super.initState();
+  // }
 
   Widget compassItem(String mode) {
     return FlatButton(
@@ -51,7 +37,7 @@ class _CompassViewState extends State<CompassView> {
         scrollDirection: Axis.horizontal,
         itemCount: gameModeList.length,
         itemBuilder: (context, index) {
-          return Text(gameModeList[index]);
+          return compassItem(gameModeList[index]);
         },
       ),
     );

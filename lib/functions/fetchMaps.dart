@@ -19,9 +19,9 @@ Future fetchMaps() async {
   }
 }
 
-void makeGameModeList() {
-  jsonResponse.forEach((key, value) {
-    if(!gameModeList.contains(value))
-      gameModeList.add(codeToMap[value]);
-  });
-}
+ void makeGameModeList() {
+    jsonResponse.forEach((key, value) {
+      if (!gameModeList.contains(value)) 
+        gameModeList.add(codeToMap[value]);
+    });
+  }

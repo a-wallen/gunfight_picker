@@ -40,8 +40,8 @@ class _MapPickerPageState extends State<MapPickerPage> {
   Widget mapPicker() {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // CompassView(),
           Container(
             padding: EdgeInsets.all(5.0),
             child: Column(
@@ -65,6 +65,7 @@ class _MapPickerPageState extends State<MapPickerPage> {
               textColor: lotion,
               color: middle_green,
               child: Text('Random Map')),
+          Text("Compass"),
         ],
       ),
     );
