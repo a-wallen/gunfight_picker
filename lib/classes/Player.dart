@@ -4,18 +4,23 @@
 //Minutes: 0-59
 class Player {
   String name;
+  double kdratio;
   int skill;
+  int hoursPlayed;
 
-  Player(String playerName, String dhm) {
-    //constructor
-    //determine skill from hours
-    name = playerName;
-    skill = convertToMinutes(dhm);
-  }
+  // Player(String playerName, String kdratio, String dhm) {
+  //   //constructor
+  //   //determine skill from hours
+  //   this.name = playerName;
+  //   this.kdratio = double.parse(kdratio);
+  //   this.skill = convertToMinutes(dhm);
+  // }
 
-  Player.defaultConstructor() {
-    name = "";
-    skill = 0;
+  Player() {
+    this.name = "Player Name";
+    this.kdratio = 0.0;
+    this.skill = 0;
+    this.hoursPlayed = 0;
   }
 
   //precondition: dhm is in the format "Days: Hours: Minutes" with no other characters

@@ -1,4 +1,6 @@
-import 'dart:math';
+import 'package:string_validator/string_validator.dart';
+import 'package:gunfight_picker/theme/theme.dart';
+import 'package:gunfight_picker/classes/Player.dart';
 import 'package:flutter/material.dart';
 
 class InputForm extends StatefulWidget {
@@ -12,7 +14,7 @@ class _InputFormState extends State<InputForm> {
 
   @override
   void initState() {
-    _players = [Player(1), Player(2), Player(3)];
+    _players = [Player(), Player(), Player()];
     _scrollController = ScrollController();
     super.initState();
   }
@@ -26,7 +28,8 @@ class _InputFormState extends State<InputForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400, // !!!!!!!!! mediaquery here !!!!!!!!!!
+      height: MediaQuery.of(context).size.height /
+          2, // !!!!!!!!! mediaquery here !!!!!!!!!!
       // foregroundDecoration: BoxDecoration(
       //   borderRadius: BorderRadius.circular(25.0),
       //   // border: Border.all(color: Colors.black, width: 5.0,),
@@ -63,7 +66,6 @@ class _InputFormState extends State<InputForm> {
   }
 }
 
-
 class PlayerCard extends StatelessWidget {
   _InputFormState parent;
   Player player;
@@ -79,7 +81,7 @@ class PlayerCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(7.0),
         ),
         margin: EdgeInsets.all(5.0),
-        color: Colors.lightGreen,
+        color: lotion,
         elevation: 10.0,
         child: InkWell(
           // splashColor: Colors.amber,
@@ -94,32 +96,57 @@ class PlayerCard extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                leading: Icon(Icons.donut_small, size: 45,),
-                title: Text(player.name),
+                leading: Icon(
+                  Icons.donut_small,
+                  color: dark_vanilla,
+                  size: 45,
+                ),
+                title: Text(
+                  player.name,
+                  style: TextStyle(color: davys_grey),
+                ),
                 subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("rank        ", textScaleFactor: 0.8,),
-                    Text("k/d          ", textScaleFactor: 0.8,),
-                    Text("hours ingame", textScaleFactor: 0.8,),
+                    skillDisplayField("rank", player.getSkill.toString()),
+                    skillDisplayField("kd ratio", player.kdratio.toString()),
+                    skillDisplayField("hours", player.hoursPlayed.toString()),
+                    // Text(
+                    //   "rank",
+                    //   textScaleFactor: 0.8,
+                    // ),
+                    // Text(
+                    //   "k/d",
+                    //   textScaleFactor: 0.8,
+                    // ),
+                    // Text(
+                    //   "hours",
+                    //   textScaleFactor: 0.8,
+                    // ),
                   ],
                 ),
               ),
-              Container(height: 50,),
+              Container(
+                color: dark_vanilla,
+                height: 10,
+              ),
             ],
           ),
         ),
       ),
       onDismissed: (direction) {
-        parent.setState(() { parent._players.remove(player); });
+        parent.setState(() {
+          parent._players.remove(player);
+        });
       },
     );
   }
 }
 
-
 class PlayerInputForm extends StatelessWidget {
   _InputFormState grandparent;
   PlayerCard parent;
+  final _formKey = GlobalKey<FormState>();
 
   PlayerInputForm(this.parent, this.grandparent);
 
@@ -127,31 +154,37 @@ class PlayerInputForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-            top: Radius.circular(10.0)
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
       ),
-      title: Text(parent.player.name),
+      title: Text(
+        parent.player.name,
+        textAlign: TextAlign.center,
+      ),
       elevation: 0.0,
       children: [
         Form(
+          key: _formKey,
           child: Column(
             children: [
-              TextFormField(decoration: InputDecoration(labelText: "rank")),
-              TextFormField(initialValue: parent.player.kdratio.toString(),),
-              TextFormField(decoration: InputDecoration(hintText: "hours ingame")),
+              myFormField("NAME", ValidatorType.STR),
+              myFormField("KD RATIO", ValidatorType.DOUBLE),
+              myFormField("HOURS", ValidatorType.DATE),
             ],
           ),
         ),
-        FlatButton( //RaisedButton
+        FlatButton(
+          //RaisedButton
           child: Text("ok"),
-          onPressed: () { Navigator.of(context).pop(); }, //use grandparent here
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              Navigator.of(context).pop();
+            }
+          }, //use grandparent here
         ),
       ],
     );
   }
 }
-
 
 class AddPlayerButton extends StatelessWidget {
   _InputFormState parent;
@@ -164,18 +197,18 @@ class AddPlayerButton extends StatelessWidget {
       child: Container(
         // decoration: BoxDecoration(border: Border.all()),
         child: //Ink(
-        // decoration: ShapeDecoration(
-        //   color: Colors.lightGreen,
-        //   shape: CircleBorder(),
-        // ),
-        /*child:*/ IconButton(
+            // decoration: ShapeDecoration(
+            //   color: Colors.lightGreen,
+            //   shape: CircleBorder(),
+            // ),
+            /*child:*/ IconButton(
           icon: Icon(Icons.group_add),
           color: Colors.black45,
           splashColor: Colors.lightGreen,
           iconSize: 40,
           onPressed: () {
             parent.setState(() {
-              parent._players.add(Player(parent._players.length+1));
+              parent._players.add(Player());
               parent._scrollController.animateTo(
                 1000,
                 duration: Duration(milliseconds: 1000),
@@ -190,15 +223,61 @@ class AddPlayerButton extends StatelessWidget {
   }
 }
 
-
-class Player {
-  String name;
-  double kdratio;
-  double hoursplayed;
-
-  Player(int i) {
-    name = "Player " + i.toString();
-    kdratio = 0.0;
-    hoursplayed = 0.0;
-  }
+enum ValidatorType {
+  STR,
+  DOUBLE,
+  DATE,
 }
+
+String myFormValidator(String value, ValidatorType vt) {
+  if (value.isEmpty) return "This field cannot be empty.";
+  if (vt == ValidatorType.STR && !isAlpha(value))
+    return "Input is invalid name.";
+  if (vt == ValidatorType.DOUBLE && !isFloat(value))
+    return "Input must be ratio.";
+  if (vt == ValidatorType.DATE && !isDate(value)) return "Input must be a date";
+  return null;
+}
+
+Widget myFormField(String fieldName, ValidatorType vt) {
+  return Container(
+      margin: EdgeInsets.all(5.0),
+      child: TextFormField(
+          //validator: (input) => myFormValidator(input, vt),
+          validator: (input) => myFormValidator(input, vt),
+          style: TextStyle(
+            fontFamily: "Lato",
+          ),
+          decoration: InputDecoration(
+            labelText: fieldName,
+            contentPadding: EdgeInsets.all(5.0),
+          )));
+}
+
+Widget skillDisplayField(String attributeName, String skillQty) {
+  return Column(
+    children: [
+      Text(
+        attributeName,
+        textScaleFactor: 0.8,
+      ),
+      Text(
+        skillQty,
+        style: TextStyle(
+          fontFamily: "Lato",
+        ),
+      ),
+    ],
+  );
+}
+// class Player {
+//   String name;
+//   double kdratio;
+//   double hoursplayed;
+
+//   Player(int i) {
+//     name = "Player " + i.toString();
+//     kdratio = 0.0;
+//     hoursplayed = 0.0;
+//   }
+// }
