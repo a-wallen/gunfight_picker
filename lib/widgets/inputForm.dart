@@ -66,16 +66,25 @@ class _InputFormState extends State<InputForm> {
   }
 }
 
-class PlayerCard extends StatelessWidget {
+class PlayerCard extends StatefulWidget {
   _InputFormState parent;
   Player player;
+  PlayerCard(parent, player){
+    this.parent = parent;
+    this.player = player;
+  }
+  @override
+  _PlayerCardState createState() => _PlayerCardState();
+}
 
-  PlayerCard(this.parent, this.player);
+class _PlayerCardState extends State<PlayerCard> {
+
+  
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(player),
+      key: ObjectKey(widget.player),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7.0),
@@ -89,7 +98,7 @@ class PlayerCard extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) {
-                return PlayerInputForm(this, this.parent);
+                return PlayerInputForm(this, widget.parent);
               },
             );
           },
@@ -102,15 +111,15 @@ class PlayerCard extends StatelessWidget {
                   size: 45,
                 ),
                 title: Text(
-                  player.name,
+                  widget.player.name,
                   style: TextStyle(color: davys_grey),
                 ),
                 subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    skillDisplayField("rank", player.getSkill.toString()),
-                    skillDisplayField("kd ratio", player.kdratio.toString()),
-                    skillDisplayField("hours", player.hoursPlayed.toString()),
+                    skillDisplayField("rank", widget.player.getSkill.toString()),
+                    skillDisplayField("kd ratio", widget.player.kdratio.toString()),
+                    skillDisplayField("hours", widget.player.hoursPlayed.toString()),
                   ],
                 ),
               ),
@@ -123,8 +132,8 @@ class PlayerCard extends StatelessWidget {
         ),
       ),
       onDismissed: (direction) {
-        parent.setState(() {
-          parent._players.remove(player);
+        widget.parent.setState(() {
+          widget.parent._players.remove(widget.player);
         });
       },
     );
@@ -133,7 +142,7 @@ class PlayerCard extends StatelessWidget {
 
 class PlayerInputForm extends StatelessWidget {
   _InputFormState grandparent;
-  PlayerCard parent;
+  _PlayerCardState parent;
   final _formKey = GlobalKey<FormState>();
 
   PlayerInputForm(this.parent, this.grandparent);
@@ -145,12 +154,13 @@ class PlayerInputForm extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
       ),
       title: Text(
-        parent.player.name,
+        parent.widget.player.name,
         textAlign: TextAlign.center,
       ),
       elevation: 0.0,
       children: [
         Form(
+          
           key: _formKey,
           child: Column(
             children: [
@@ -165,6 +175,17 @@ class PlayerInputForm extends StatelessWidget {
           child: Text("ok"),
           onPressed: () {
             if (_formKey.currentState.validate()) {
+              grandparent.setState(() {
+                grandparent._players[0] = "50";
+              });
+              parent.setState(() {
+                parent.widget.player.player_name = "Ezra";
+                parent.widget.player.player_hours = "24";
+                parent.widget.player.player_kdratio = "1.0";
+              });
+              for(int i = 0; i < grandparent._players.length; i++){
+                grandparent._players[i].printPl();
+              }
               Navigator.of(context).pop();
             }
           }, //use grandparent here
