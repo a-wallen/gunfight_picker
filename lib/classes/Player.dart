@@ -53,7 +53,7 @@ class Player {
     if (isDate(hours)) this.hoursPlayed = 0;
   }
 
-  void printPl(){
+  void printPl() {
     print("Player hours: $getName");
     print("Player name: $getKD");
     print("Player kd: $getSkill");

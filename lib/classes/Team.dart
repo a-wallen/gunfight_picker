@@ -22,4 +22,8 @@ class Team {
     }
     return result;
   }
+
+  List<Player> get getPlayerList {
+    return playerList;
+  }
 }
