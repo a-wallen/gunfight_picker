@@ -79,8 +79,6 @@ class PlayerCard extends StatefulWidget {
 
 class _PlayerCardState extends State<PlayerCard> {
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -160,7 +158,6 @@ class PlayerInputForm extends StatelessWidget {
       elevation: 0.0,
       children: [
         Form(
-          
           key: _formKey,
           child: Column(
             children: [
@@ -175,13 +172,16 @@ class PlayerInputForm extends StatelessWidget {
           child: Text("ok"),
           onPressed: () {
             if (_formKey.currentState.validate()) {
-              grandparent.setState(() {
-                grandparent._players[0] = "50";
-              });
+              // grandparent.setState(() {
+              //   int index = grandparent._players.indexOf(parent.widget.player);
+              //   grandparent._players[index].name = "TEST";
+              //   grandparent._players[index].kdratio = 145.320181;
+              //   grandparent._players[index].hoursPlayed = 99999999999;
+              // });
               parent.setState(() {
-                parent.widget.player.player_name = "Ezra";
-                parent.widget.player.player_hours = "24";
-                parent.widget.player.player_kdratio = "1.0";
+                parent.widget.player.player_name = "Jack Sparrow";
+                parent.widget.player.player_hours = "999999";
+                parent.widget.player.player_kdratio = "0.0001";
               });
               for(int i = 0; i < grandparent._players.length; i++){
                 grandparent._players[i].printPl();
@@ -252,6 +252,8 @@ Widget myFormField(String fieldName, ValidatorType vt) {
   return Container(
       margin: EdgeInsets.all(5.0),
       child: TextFormField(
+          keyboardType: fieldName == "NAME" ? TextInputType.text : TextInputType.number,
+          // initialValue: player.name,
           //validator: (input) => myFormValidator(input, vt),
           validator: (input) => myFormValidator(input, vt),
           style: TextStyle(
