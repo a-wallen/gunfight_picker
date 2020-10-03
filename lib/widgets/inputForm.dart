@@ -31,19 +31,9 @@ class _InputFormState extends State<InputForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height /
-          2, // !!!!!!!!! mediaquery here !!!!!!!!!!
-      // foregroundDecoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(25.0),
-      //   // border: Border.all(color: Colors.black, width: 5.0,),
-      // ),
-      // decoration: BoxDecoration(
-      //   shape: BoxShape.circle,
-      //   boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 500.0)]
-      // ),
+      height: MediaQuery.of(context).size.height / 2,
       child: Column(
         children: [
-          Container(height: 10),
           Flexible(
             fit: FlexFit.loose,
             child: ListView.separated(

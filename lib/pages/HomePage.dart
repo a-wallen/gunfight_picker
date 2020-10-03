@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
     MapPickerPage(),
     BracketPage(),
   ];
-  
+
   @override
   void initState() {
     fetchMaps().then((value) {
@@ -39,9 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onNavBarTap(int index) {
     _pageController.animateToPage(
-        index,
-        duration: Duration(milliseconds: 400),
-        curve: Curves.easeOut,
+      index,
+      duration: Duration(milliseconds: 400),
+      curve: Curves.easeOut,
     );
   }
 
@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(
           widget.title,
@@ -64,10 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
         // child: _pages.elementAt(_navBarIndex)
-        child: PageView(controller: _pageController,
+        child: PageView(
+            controller: _pageController,
             onPageChanged: _onPageChanged,
-            children: _pages
-        ),
+            children: _pages),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
