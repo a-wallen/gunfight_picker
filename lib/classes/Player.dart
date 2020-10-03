@@ -53,17 +53,10 @@ class Player {
     /*if (isDate(hours))*/ this.hoursPlayed = int.parse(hours);
   }
 
-<<<<<<< HEAD
   void printPl() {
-    print("Player hours: $getName");
-    print("Player name: $getKD");
-    print("Player kd: $getSkill");
-=======
-  void printPl(){
     print("Player name: $getName");
     print("Player kd: $getKD");
     print("Player kd: $getHours");
->>>>>>> b4c0c2f6e81e54b715bfc95fde00933de3d34da2
   }
 
   String get getName {

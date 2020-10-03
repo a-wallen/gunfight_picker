@@ -1,20 +1,23 @@
 import 'package:string_validator/string_validator.dart';
+import 'package:gunfight_picker/pages/BracketPage.dart';
 import 'package:gunfight_picker/theme/theme.dart';
 import 'package:gunfight_picker/classes/Player.dart';
 import 'package:flutter/material.dart';
 
 class InputForm extends StatefulWidget {
+  List<Player> _players;
   @override
+  InputForm(List<Player> pl) {
+    this._players = pl;
+  }
   _InputFormState createState() => _InputFormState();
 }
 
 class _InputFormState extends State<InputForm> {
-  List<Player> _players;
   ScrollController _scrollController;
 
   @override
   void initState() {
-    _players = [Player(), Player(), Player()];
     _scrollController = ScrollController();
     super.initState();
   }
@@ -48,14 +51,14 @@ class _InputFormState extends State<InputForm> {
               shrinkWrap: true,
               // scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(5.0),
-              itemCount: _players.length,
+              itemCount: widget._players.length,
               separatorBuilder: (c, i) => Divider(
                 thickness: 3.0,
                 indent: 25,
                 endIndent: 25,
               ),
               itemBuilder: (context, index) {
-                return PlayerCard(this, _players[index]);
+                return PlayerCard(this, widget._players[index]);
               }, //ItemBuilder
             ),
           ),
@@ -133,7 +136,7 @@ class _PlayerCardState extends State<PlayerCard> {
       ),
       onDismissed: (direction) {
         widget.parent.setState(() {
-          widget.parent._players.remove(widget.player);
+          widget.parent.widget._players.remove(widget.player);
         });
       },
     );
@@ -175,8 +178,8 @@ class PlayerInputForm extends StatelessWidget {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              for (int i = 0; i < grandparent._players.length; i++) {
-                grandparent._players[i].printPl();
+              for (int i = 0; i < grandparent.widget._players.length; i++) {
+                grandparent.widget._players[i].printPl();
               }
               Navigator.of(context).pop();
             }
@@ -209,7 +212,7 @@ class AddPlayerButton extends StatelessWidget {
           iconSize: 40,
           onPressed: () {
             parent.setState(() {
-              parent._players.add(Player());
+              parent.widget._players.add(Player());
               parent._scrollController.animateTo(
                 1000,
                 duration: Duration(milliseconds: 1000),
