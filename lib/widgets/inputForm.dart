@@ -69,7 +69,7 @@ class _InputFormState extends State<InputForm> {
 class PlayerCard extends StatefulWidget {
   _InputFormState parent;
   Player player;
-  PlayerCard(parent, player){
+  PlayerCard(parent, player) {
     this.parent = parent;
     this.player = player;
   }
@@ -78,7 +78,6 @@ class PlayerCard extends StatefulWidget {
 }
 
 class _PlayerCardState extends State<PlayerCard> {
-
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -115,9 +114,12 @@ class _PlayerCardState extends State<PlayerCard> {
                 subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    skillDisplayField("rank", widget.player.getSkill.toString()),
-                    skillDisplayField("kd ratio", widget.player.kdratio.toString()),
-                    skillDisplayField("hours", widget.player.hoursPlayed.toString()),
+                    skillDisplayField(
+                        "rank", widget.player.getSkill.toString()),
+                    skillDisplayField(
+                        "kd ratio", widget.player.kdratio.toString()),
+                    skillDisplayField(
+                        "hours", widget.player.hoursPlayed.toString()),
                   ],
                 ),
               ),
@@ -161,9 +163,9 @@ class PlayerInputForm extends StatelessWidget {
           key: _formKey,
           child: Column(
             children: [
-              myFormField("NAME", ValidatorType.STR),
-              myFormField("KD RATIO", ValidatorType.DOUBLE),
-              myFormField("HOURS", ValidatorType.DATE),
+              myFormField("NAME", ValidatorType.STR, this.parent),
+              myFormField("KD RATIO", ValidatorType.DOUBLE, this.parent),
+              myFormField("HOURS", ValidatorType.INT, this.parent),
             ],
           ),
         ),
@@ -172,18 +174,8 @@ class PlayerInputForm extends StatelessWidget {
           child: Text("ok"),
           onPressed: () {
             if (_formKey.currentState.validate()) {
-              // grandparent.setState(() {
-              //   int index = grandparent._players.indexOf(parent.widget.player);
-              //   grandparent._players[index].name = "TEST";
-              //   grandparent._players[index].kdratio = 145.320181;
-              //   grandparent._players[index].hoursPlayed = 99999999999;
-              // });
-              parent.setState(() {
-                parent.widget.player.player_name = "Jack Sparrow";
-                parent.widget.player.player_hours = "999999";
-                parent.widget.player.player_kdratio = "0.0001";
-              });
-              for(int i = 0; i < grandparent._players.length; i++){
+              _formKey.currentState.save();
+              for (int i = 0; i < grandparent._players.length; i++) {
                 grandparent._players[i].printPl();
               }
               Navigator.of(context).pop();
@@ -235,7 +227,7 @@ class AddPlayerButton extends StatelessWidget {
 enum ValidatorType {
   STR,
   DOUBLE,
-  DATE,
+  INT,
 }
 
 String myFormValidator(String value, ValidatorType vt) {
@@ -244,15 +236,31 @@ String myFormValidator(String value, ValidatorType vt) {
     return "Input is invalid name.";
   if (vt == ValidatorType.DOUBLE && !isFloat(value))
     return "Input must be ratio.";
-  if (vt == ValidatorType.DATE && !isDate(value)) return "Input must be a date";
+  if (vt == ValidatorType.INT && !isInt(value)) return "Input must be a date";
   return null;
 }
 
-Widget myFormField(String fieldName, ValidatorType vt) {
+Widget myFormField(
+    String fieldName, ValidatorType vt, _PlayerCardState parent) {
   return Container(
       margin: EdgeInsets.all(5.0),
       child: TextFormField(
-          keyboardType: fieldName == "NAME" ? TextInputType.text : TextInputType.number,
+          onSaved: (input) {
+            if (vt == ValidatorType.INT) {
+              parent.widget.player.player_hours = input;
+              parent.setState(() {});
+            } else if (vt == ValidatorType.DOUBLE) {
+              parent.setState(() {
+                parent.widget.player.player_kdratio = input;
+              });
+            } else if (vt == ValidatorType.STR) {
+              parent.setState(() {
+                parent.widget.player.player_name = input;
+              });
+            }
+          },
+          keyboardType:
+              fieldName == "NAME" ? TextInputType.text : TextInputType.number,
           // initialValue: player.name,
           //validator: (input) => myFormValidator(input, vt),
           validator: (input) => myFormValidator(input, vt),
