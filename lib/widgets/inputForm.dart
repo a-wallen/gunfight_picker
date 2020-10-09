@@ -52,7 +52,6 @@ class _InputFormState extends State<InputForm> {
               }, //ItemBuilder
             ),
           ),
-          AddPlayerButton(this),
         ],
       ),
     );
@@ -282,14 +281,3 @@ Widget skillDisplayField(String attributeName, String skillQty) {
     ],
   );
 }
-// class Player {
-//   String name;
-//   double kdratio;
-//   double hoursplayed;
-
-//   Player(int i) {
-//     name = "Player " + i.toString();
-//     kdratio = 0.0;
-//     hoursplayed = 0.0;
-//   }
-// }

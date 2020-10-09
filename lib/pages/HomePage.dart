@@ -16,6 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _navBarIndex = 0;
+  double foregroundElevation = 10.0;
   PageController _pageController = PageController(initialPage: 0);
 
   static List<Widget> _pages = <Widget>[
@@ -56,14 +57,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        elevation: foregroundElevation,
         title: Text(
           widget.title,
           style: TextStyle(color: middle_green),
         ),
       ),
       body: Container(
-        margin: EdgeInsets.all(10.0),
-        width: MediaQuery.of(context).size.width,
+        //margin: EdgeInsets.all(10.0),
+        //width: MediaQuery.of(context).size.width,
         // child: _pages.elementAt(_navBarIndex)
         child: PageView(
             controller: _pageController,
@@ -71,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: _pages),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: foregroundElevation,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
