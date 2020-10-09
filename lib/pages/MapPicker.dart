@@ -28,9 +28,9 @@ class _MapPickerPageState extends State<MapPickerPage> {
     });
     print("Shake initialized");
   }
-  
+
   @override
-  void dispose(){
+  void dispose() {
     detector.stopListening();
     super.dispose();
   }
@@ -100,7 +100,10 @@ class _MapPickerPageState extends State<MapPickerPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         mapPicker(),
-        Text(gamemode),
+        Text(
+          "Selected: ${codeToGameMode[gamemode]}",
+          style: TextStyle(color: davys_grey, fontSize: 12.0),
+        ),
         Container(
           height: MediaQuery.of(context).size.height / 2,
           child: GameModeSearch(this),
