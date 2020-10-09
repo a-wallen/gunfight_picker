@@ -18,13 +18,21 @@ class MapPickerPage extends StatefulWidget {
 class _MapPickerPageState extends State<MapPickerPage> {
   String gamemode = "cyber"; // gunfight
   String gameMap = "mp_cave_am";
+  ShakeDetector detector;
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+    detector = ShakeDetector.autoStart(onPhoneShake: () {
       _pickMap(gamemode);
     });
-    detector.startListening();
+    print("Shake initialized");
+  }
+  
+  @override
+  void dispose(){
+    detector.stopListening();
+    super.dispose();
   }
 
   void _pickMap(String gamemode) async {
