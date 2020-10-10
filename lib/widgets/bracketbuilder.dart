@@ -26,7 +26,7 @@ class _BracketBuilderState extends State<BracketBuilder> {
                   child: ListTile(
                     title: Text("Team 1"),
                     subtitle: Text(""),
-                    onTap: ,
+                    onTap: null,
                   ),
                 ),
                 Card(),
@@ -64,18 +64,9 @@ class _BracketBuilderState extends State<BracketBuilder> {
               ],
             ),
           ),
-        ], 
+        ],
       ),
     );
-        //padding: EdgeInsets.all(10.0),
-        height: 180,
-        child: Column(
-          children: [
-            Text(
-              "Hector's Widget",
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ));
+    //padding: EdgeInsets.all(10.0),
   }
 }
