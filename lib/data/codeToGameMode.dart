@@ -15,9 +15,9 @@ Map codeToGameMode = {
   'sd_hc': 'Hardcore Search and Destroy',
   'siege': 'Hardpoint',
   'tdef': 'Team Defender',
-  'war': 'Ground War',
+  'war': 'free-for-all',
   'war_hc': 'Ground War Hardcore',
-  'arm': 'Cranked',
+  'arm': 'Ground War',
   'dd_hc': 'Hardcore Deathmatch Domination',
   'arena': 'Gunfight',
 };

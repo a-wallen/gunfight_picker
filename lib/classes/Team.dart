@@ -1,6 +1,7 @@
 import "package:gunfight_picker/classes/Player.dart";
 
 class Team {
+  String teamName;
   List<Player> playerList;
   double aggregateSkill;
 
@@ -8,17 +9,17 @@ class Team {
   Team() {
     List<Player> playerList = List<Player>();
     aggregateSkill = computeAggregateSkill(playerList);
+    teamName = "";
+    print("team constructor was called");
   }
 
   double computeAggregateSkill(List<Player> myPlayerList) {
     double result = 0;
-    for (int i = 0; i < myPlayerList.length; i++) {
-      result += myPlayerList[i].getSkill;
-    }
+    for (var player in myPlayerList) result += player.getSkill;
     return result;
   }
 
   List<Player> get getPlayerList {
-    return playerList;
+    return this.playerList;
   }
 }

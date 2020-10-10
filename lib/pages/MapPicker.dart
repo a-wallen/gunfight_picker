@@ -52,6 +52,8 @@ class _MapPickerPageState extends State<MapPickerPage> {
     setState(() {
       gameMap = _possibleMaps[rng.nextInt(_possibleMaps.length - 1)];
     });
+    print(gameMap);
+    print(gamemode);
   }
 
   setGameMode(String gm) {
@@ -60,41 +62,13 @@ class _MapPickerPageState extends State<MapPickerPage> {
     });
   }
 
-  Widget mapPicker() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Container(
-                    width: 320.0,
-                    height: 180.0,
-                    child: codeToMapImage[gameMap],
-                  ),
-                ),
-                Text(
-                  codeToMap[gameMap],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        mapPicker(),
+        MapPicker(this),
         Text(
           "Selected: ${codeToGameMode[gamemode]}",
           style: TextStyle(color: davys_grey, fontSize: 12.0),
@@ -104,6 +78,85 @@ class _MapPickerPageState extends State<MapPickerPage> {
           child: GameModeSearch(this),
         ),
       ],
+    );
+  }
+}
+
+class MapPicker extends StatefulWidget {
+  _MapPickerPageState parent;
+  MapPicker(_MapPickerPageState mpps) {
+    this.parent = mpps;
+  }
+  @override
+  _MapPickerState createState() => _MapPickerState();
+}
+
+class _MapPickerState extends State<MapPicker> {
+  Future<Map> apiResponse;
+  bool isExpanded = true;
+
+  @override
+  void initState() {
+    apiResponse = getJSON();
+    super.initState();
+  }
+
+  Future<Map> getJSON() async {
+    await fetchMaps();
+    return jsonResponse;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FutureBuilder(
+          future: apiResponse,
+          builder: (context, projectSnap) {
+            if (projectSnap.hasData == null) {
+              return Container(height: 0.0, width: 0.0);
+            } else {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                            widget.parent.setState(() {
+                              widget.parent._pickMap(widget.parent.gamemode);
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 1000),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(isExpanded ? 32 : 4),
+                                ),
+                              ),
+                              height: isExpanded ? 180 : 100,
+                              width: isExpanded ? 320 : 240,
+                              curve: Curves.bounceOut,
+                              child: codeToMapImage[widget.parent.gameMap],
+                            ),
+                          ),
+                        ),
+                        Text(
+                          codeToMap[widget.parent.gameMap],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+          }),
     );
   }
 }
@@ -243,15 +296,3 @@ class _GameModeSearchState extends State<GameModeSearch> {
     );
   }
 }
-
-// child: ListView(
-//               padding: EdgeInsets.all(12.0),
-//               children: newDataList.map((data) {
-//                 return ListTile(
-//                   title: Text(data),
-//                   onTap: () {
-//                     widget.parent.gamemode = data;
-//                     print(data);
-//                   },
-//                 );
-//               }).toList(),
