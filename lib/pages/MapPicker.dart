@@ -284,8 +284,9 @@ class _GameModeSearchState extends State<GameModeSearch> {
                     animation: true,
                     percent: 1,
                     header: Text("Loading Maps"),
-                    center: Icon(Icons.location_searching_outlined,
-                        size: 50.0, color: dark_vanilla),
+                    center: Icon(Icons.location_searching, //_outlined,
+                        size: 50.0,
+                        color: dark_vanilla),
                     backgroundColor: davys_grey,
                     progressColor: dark_vanilla),
               );
