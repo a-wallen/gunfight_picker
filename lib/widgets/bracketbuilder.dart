@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 import 'package:gunfight_picker/classes/Team.dart';
 import 'package:gunfight_picker/theme/theme.dart';
 
 class BracketBuilder extends StatefulWidget {
-  List<Widget> levels = [];
+  List<List<Team>> levels = [];
   List<Team> _teams = [];
+
   BracketBuilder(List<Team> tl) {
-    this._teams =
-        tl; // Hardcode  = [Team(), Team()] to test Andrew, Ezra, Hector Widget
-    this._teams = [];
+    this._teams = [Team(), Team(), Team(), Team(), Team(), Team(), Team(), Team()];
+    // Hardcode  = [Team(), Team()] to test Andrew, Ezra, Hector Widget
+
+    this.levels = List<List<Team>>((log(_teams.length) / log(2)).ceil());
+    levels[levels.length] = _teams;
   }
   @override
   _BracketBuilderState createState() => _BracketBuilderState();
@@ -20,18 +23,19 @@ class _BracketBuilderState extends State<BracketBuilder> {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height / 3.5,
-        child: switchDisplayChildBasedOnListSize(widget._teams));
+        child: AndrewAndEzraWidget(widget.levels),
+    );
   }
 }
 
 class TeamCard extends StatelessWidget {
-  Team t1, t2;
-  TeamCard(this.t1, this.t2);
+  Team team;
+  TeamCard(Team team);
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text("${this.t1} vs. ${this.t2}"),
+        title: Text("${this.team.name}}"),
         onTap: null,
       ),
     );
@@ -39,91 +43,66 @@ class TeamCard extends StatelessWidget {
 }
 
 // super long name for explanation
-Widget switchDisplayChildBasedOnListSize(List<Team> t) {
-  switch (t.length) {
-    case 0:
-      return NoTeamsWidget();
-      break;
-    case 1:
-      return WinAndResetWidget(t);
-      break;
-    default:
-      return AndrewAndEzraWidget(t);
-      break;
-  }
-}
+// Widget switchDisplayChildBasedOnListSize(List<Team> t) {
+//   switch (t.length) {
+//     case 0:
+//       return NoTeamsWidget();
+//       break;
+//     case 1:
+//       return WinAndResetWidget(t);
+//       break;
+//     default:
+//       return AndrewAndEzraWidget(t);
+//       break;
+//   }
+// }
 
 class AndrewAndEzraWidget extends StatefulWidget {
-  List<Team> teams;
-  AndrewAndEzraWidget(List<Team> tl) {
-    this.teams = tl;
+
+  List<List<Team>> level;
+
+  AndrewAndEzraWidget(List<List<Team>> levels) {
+    this.level = levels;
   }
+
   @override
   _AndrewAndEzraWidgetState createState() => _AndrewAndEzraWidgetState();
 }
 
 class _AndrewAndEzraWidgetState extends State<AndrewAndEzraWidget> {
+
+  // void initState() {
+  //   widget.level = List(List)
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height / 3.5,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Card(
-                  child: ListTile(
-                    title: Text("Team 1"),
-                    subtitle: Text(""),
-                    onTap: () {},
-                  ),
-                ),
-                Card(),
-                Card(),
-                Card(),
-                Card(),
-                Card(),
-                Card(),
-                Card(),
-              ],
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: widget.level.length,
+        itemBuilder: (context, index) {
+          return Expanded(
+            child: ListView.builder(
+                itemCount: widget.level[index].length,
+                itemBuilder: (context, index2) {
+                  return TeamCard(level[index][index2]);
+                },
             ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Card(),
-                Card(),
-                Card(),
-                Card(),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Card(),
-                Card(),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Card(),
-              ],
-            ),
-          ),
-        ],
-      ),
+          );
+        },
+      )
     );
   }
 }
 
 class WinAndResetWidget extends StatefulWidget {
-  List<Team> winnerz;
-  WinAndResetWidget(List<Team> tl) {
-    this.winnerz = tl;
+  List level = [];
+
+  WinAndResetWidget(List<List<Team>> levels) {
+    this.level = levels;
   }
   @override
   _WinAndResetWidgetState createState() => _WinAndResetWidgetState();
@@ -159,7 +138,8 @@ class _WinAndResetWidgetState extends State<WinAndResetWidget> {
                 RaisedButton(
                   // on pressed needs to reset everything
                   onPressed: () {
-                    if (widget.winnerz.isNotEmpty) widget.winnerz.removeLast();
+                    if (widget.level[level.length-1].isNotEmpty)
+                      //do something;
                     print("needs implementation.");
                   },
                   child: Text(

@@ -41,8 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onNavBarTap(int index) {
     _pageController.animateToPage(
       index,
-      duration: Duration(milliseconds: 400),
-      curve: Curves.easeOut,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
     );
   }
 
