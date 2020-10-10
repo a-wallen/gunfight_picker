@@ -16,16 +16,19 @@ class BracketPage extends StatefulWidget {
 class _BracketPageState extends State<BracketPage> {
   @override
   List<Team> teams = [];
-  List<Player> players = [Player(), Player(), Player()];
+  List<Player> players = [Player(), Player()];
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white38,
-      child: Column(
-        children: [
-          BracketBuilder(teams),
-          InputForm(players, teams),
-        ],
-      ),
-    );
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            BracketBuilder(teams),
+            Baseline(
+              baseline: (MediaQuery.of(context).size.height - 140),
+              baselineType: TextBaseline.alphabetic,
+              child: InputForm(players, teams),
+            ),
+          ],
+        ));
   }
 }

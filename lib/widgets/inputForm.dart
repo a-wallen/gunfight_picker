@@ -36,6 +36,7 @@ class _InputFormState extends State<InputForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
       height: MediaQuery.of(context).size.height / 2,
       child: Column(
         children: [
@@ -44,8 +45,6 @@ class _InputFormState extends State<InputForm> {
             child: ListView.separated(
               controller: _scrollController,
               shrinkWrap: true,
-              // scrollDirection: Axis.vertical,
-              padding: EdgeInsets.all(5.0),
               itemCount: widget._players.length,
               separatorBuilder: (c, i) => Divider(
                 thickness: 3.0,
@@ -58,10 +57,27 @@ class _InputFormState extends State<InputForm> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              RaisedButton(
-                child: AddPlayerButton(this),
+              Container(
+                // decoration: BoxDecoration(border: Border.all()),
+                child: IconButton(
+                  icon: Icon(Icons.group_add),
+                  color: Colors.black45,
+                  splashColor: Colors.lightGreen,
+                  iconSize: 40,
+                  onPressed: () {
+                    setState(() {
+                      widget._players.add(Player());
+                      _scrollController.animateTo(
+                        1000,
+                        duration: Duration(milliseconds: 1000),
+                        curve: Curves.easeIn,
+                      );
+                    });
+                  },
+                  //),
+                ),
               ),
               Container(
                 child: IconButton(
@@ -214,42 +230,42 @@ class PlayerInputForm extends StatelessWidget {
   }
 }
 
-class AddPlayerButton extends StatelessWidget {
-  _InputFormState parent;
+// class AddPlayerButton extends StatelessWidget {
+//   _InputFormState parent;
 
-  AddPlayerButton(this.parent);
+//   AddPlayerButton(this.parent);
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        // decoration: BoxDecoration(border: Border.all()),
-        child: //Ink(
-            // decoration: ShapeDecoration(
-            //   color: Colors.lightGreen,
-            //   shape: CircleBorder(),
-            // ),
-            /*child:*/ IconButton(
-          icon: Icon(Icons.group_add),
-          color: Colors.black45,
-          splashColor: Colors.lightGreen,
-          iconSize: 40,
-          onPressed: () {
-            parent.setState(() {
-              parent.widget._players.add(Player());
-              parent._scrollController.animateTo(
-                1000,
-                duration: Duration(milliseconds: 1000),
-                curve: Curves.easeIn,
-              );
-            });
-          },
-          //),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Container(
+//         // decoration: BoxDecoration(border: Border.all()),
+//         child: //Ink(
+//             // decoration: ShapeDecoration(
+//             //   color: Colors.lightGreen,
+//             //   shape: CircleBorder(),
+//             // ),
+//             /*child:*/ IconButton(
+//           icon: Icon(Icons.group_add),
+//           //color: Colors.black45,
+//           //splashColor: Colors.lightGreen,
+//           iconSize: 40,
+//           onPressed: () {
+//             parent.setState(() {
+//               parent.widget._players.add(Player());
+//               parent._scrollController.animateTo(
+//                 1000,
+//                 duration: Duration(milliseconds: 1000),
+//                 curve: Curves.easeIn,
+//               );
+//             });
+//           },
+//           //),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 enum ValidatorType {
   STR,

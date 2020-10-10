@@ -83,11 +83,6 @@ class _MapPickerPageState extends State<MapPickerPage> {
               ],
             ),
           ),
-          // FlatButton(
-          //     onPressed: () => _pickMap(gamemode),
-          //     textColor: lotion,
-          //     color: middle_green,
-          //     child: Text('Random Map')),
         ],
       ),
     );
