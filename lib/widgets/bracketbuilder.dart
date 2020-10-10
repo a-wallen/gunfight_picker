@@ -8,11 +8,21 @@ class BracketBuilder extends StatefulWidget {
   List<Team> _teams = [];
 
   BracketBuilder(List<Team> tl) {
-    this._teams = [Team(), Team(), Team(), Team(), Team(), Team(), Team(), Team()];
+    this._teams = [
+      Team(),
+      Team(),
+      Team(),
+      Team(),
+      Team(),
+      Team(),
+      Team(),
+      Team()
+    ];
     // Hardcode  = [Team(), Team()] to test Andrew, Ezra, Hector Widget
 
-    this.levels = List<List<Team>>((log(_teams.length) / log(2)).ceil());
-    levels[levels.length] = _teams;
+    this.levels = List<List<Team>>((log(_teams.length) / log(2)).ceil() + 1);
+    for (int i = 0; i < levels.length; i++) levels[i] = List<Team>();
+    levels[0] = _teams;
   }
   @override
   _BracketBuilderState createState() => _BracketBuilderState();
@@ -22,21 +32,46 @@ class _BracketBuilderState extends State<BracketBuilder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height / 3.5,
-        child: AndrewAndEzraWidget(widget.levels),
+      height: MediaQuery.of(context).size.height / 3.5,
+      child: AndrewAndEzraWidget(widget.levels, this),
     );
   }
 }
 
 class TeamCard extends StatelessWidget {
   Team team;
-  TeamCard(Team team);
+  _BracketBuilderState bbs;
+  int position;
+
+  TeamCard(Team t, _BracketBuilderState b, int index) {
+    team = t;
+    bbs = b;
+    position = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text("${this.team.name}}"),
-        onTap: null,
+        leading: Icon(
+          Icons.circle,
+          color: this.team.getTeamColor,
+          size: 20,
+        ),
+        title: Text(
+          "${this.team.getTeamName}",
+        ),
+
+        ///subtitle: Text("${this.team.playerList[0]}"),
+        onTap: () {
+          if (position + 1 < bbs.widget.levels.length) {
+            bbs.setState(() {
+              bbs.widget.levels[position + 1].add(team);
+            });
+          } else {
+            return WinAndResetWidget(bbs.widget.levels);
+          }
+        },
       ),
     );
   }
@@ -58,11 +93,12 @@ class TeamCard extends StatelessWidget {
 // }
 
 class AndrewAndEzraWidget extends StatefulWidget {
-
   List<List<Team>> level;
+  _BracketBuilderState bbs;
 
-  AndrewAndEzraWidget(List<List<Team>> levels) {
+  AndrewAndEzraWidget(List<List<Team>> levels, _BracketBuilderState b) {
     this.level = levels;
+    this.bbs = b;
   }
 
   @override
@@ -70,7 +106,6 @@ class AndrewAndEzraWidget extends StatefulWidget {
 }
 
 class _AndrewAndEzraWidgetState extends State<AndrewAndEzraWidget> {
-
   // void initState() {
   //   widget.level = List(List)
   //   super.initState();
@@ -79,22 +114,33 @@ class _AndrewAndEzraWidgetState extends State<AndrewAndEzraWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3.5,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.level.length,
-        itemBuilder: (context, index) {
-          return Expanded(
-            child: ListView.builder(
-                itemCount: widget.level[index].length,
-                itemBuilder: (context, index2) {
-                  return TeamCard(level[index][index2]);
-                },
-            ),
-          );
-        },
-      )
-    );
+        color: Colors.white,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 3.5,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.level.length,
+          itemBuilder: (context, i) {
+            print("Columns: ${widget.level.length}");
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width / 2,
+                child: Expanded(
+                    child: ListView.builder(
+                  itemCount: widget.level[i].length,
+                  itemBuilder: (context, j) {
+                    print("Cards/Teams: ${widget.level[i].length}");
+                    return TeamCard(widget.level[i][j], widget.bbs, i);
+                    // return Container(
+                    //   color: j % 2 == 0 ? Colors.red : Colors.blue,
+                    //   child: TeamCard(widget.level[i][j]),
+                    //   width: 300,
+                    //   height: 100,
+                    // );
+                  },
+                )));
+          },
+        ));
   }
 }
 
@@ -127,7 +173,7 @@ class _WinAndResetWidgetState extends State<WinAndResetWidget> {
                   style: TextStyle(color: davys_grey),
                 ),
                 Text(
-                  "${widget.winnerz[0].teamName}",
+                  "somebody won",
                   textAlign: TextAlign.center,
                 ),
                 Text(
@@ -138,9 +184,9 @@ class _WinAndResetWidgetState extends State<WinAndResetWidget> {
                 RaisedButton(
                   // on pressed needs to reset everything
                   onPressed: () {
-                    if (widget.level[level.length-1].isNotEmpty)
+                    if (widget.level[widget.level.length - 1].isNotEmpty)
                       //do something;
-                    print("needs implementation.");
+                      print("needs implementation.");
                   },
                   child: Text(
                     "Restart",
