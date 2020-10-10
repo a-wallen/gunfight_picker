@@ -7,6 +7,10 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
   print("fail 1");
   List<Team> teams = List<Team>((unmatchedPlayers.length / teamSize).ceil());
   print("fail 2");
+
+  for (int i = 0; i < teams.length; i++) {
+    teams[i] = new Team();
+  }
   for (var team in teams) team.playerList = new List<Player>();
 
   int j = 0; //counter for unmatchedPlayers
