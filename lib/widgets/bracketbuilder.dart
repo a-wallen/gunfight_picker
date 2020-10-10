@@ -15,11 +15,15 @@ class _BracketBuilderState extends State<BracketBuilder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3.5,
-      child: Text(
-        "Hector's Widget",
-        textAlign: TextAlign.center,
-      ),
-    );
+        //padding: EdgeInsets.all(10.0),
+        height: 180,
+        child: Column(
+          children: [
+            Text(
+              "Hector's Widget",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ));
   }
 }
