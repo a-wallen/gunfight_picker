@@ -9,6 +9,7 @@ class BracketBuilder extends StatefulWidget {
   BracketBuilder(List<Team> tl) {
     this._teams =
         tl; // Hardcode  = [Team(), Team()] to test Andrew, Ezra, Hector Widget
+    this._teams = [];
   }
   @override
   _BracketBuilderState createState() => _BracketBuilderState();
@@ -47,12 +48,16 @@ Widget switchDisplayChildBasedOnListSize(List<Team> t) {
       return WinAndResetWidget(t);
       break;
     default:
-      return AndrewAndEzraWidget();
+      return AndrewAndEzraWidget(t);
       break;
   }
 }
 
 class AndrewAndEzraWidget extends StatefulWidget {
+  List<Team> teams;
+  AndrewAndEzraWidget(List<Team> tl) {
+    this.teams = tl;
+  }
   @override
   _AndrewAndEzraWidgetState createState() => _AndrewAndEzraWidgetState();
 }
@@ -60,7 +65,58 @@ class AndrewAndEzraWidget extends StatefulWidget {
 class _AndrewAndEzraWidgetState extends State<AndrewAndEzraWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: MediaQuery.of(context).size.height / 3.5,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Card(
+                  child: ListTile(
+                    title: Text("Team 1"),
+                    subtitle: Text(""),
+                    onTap: () {},
+                  ),
+                ),
+                Card(),
+                Card(),
+                Card(),
+                Card(),
+                Card(),
+                Card(),
+                Card(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Card(),
+                Card(),
+                Card(),
+                Card(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Card(),
+                Card(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Card(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -103,6 +159,7 @@ class _WinAndResetWidgetState extends State<WinAndResetWidget> {
                 RaisedButton(
                   // on pressed needs to reset everything
                   onPressed: () {
+                    if (widget.winnerz.isNotEmpty) widget.winnerz.removeLast();
                     print("needs implementation.");
                   },
                   child: Text(
