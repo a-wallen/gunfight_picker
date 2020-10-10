@@ -22,28 +22,8 @@ class _BracketPageState extends State<BracketPage> {
       color: Colors.white38,
       child: Column(
         children: [
-          InputForm(players),
-          FlatButton(
-              color: dark_vanilla,
-              onPressed: () {
-                setState(() {
-                  teams = matchPlayers(players);
-                  teams = balanceTeams(teams);
-                });
-                for (var player in players) {
-                  player.printPl();
-                }
-                for (var team in teams) {
-                  for (var player in team.playerList) player.printPl();
-                }
-              },
-              child: Text(
-                "Ready Up",
-                style: TextStyle(fontFamily: 'MW'),
-              )),
           BracketBuilder(teams),
-
-          /// n = 4
+          InputForm(players, teams),
         ],
       ),
     );

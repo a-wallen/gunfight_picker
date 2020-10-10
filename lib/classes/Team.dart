@@ -5,14 +5,9 @@ class Team {
   double aggregateSkill;
 
   //double skill = player1.getSkill() + player2.getSkill();
-  Team(myPlayerList) {
-    playerList = myPlayerList;
-    aggregateSkill = computeAggregateSkill(myPlayerList);
-  }
-
-  Team.defaultConstructor() {
-    playerList = [];
-    aggregateSkill = 0;
+  Team() {
+    List<Player> playerList = List<Player>();
+    aggregateSkill = computeAggregateSkill(playerList);
   }
 
   double computeAggregateSkill(List<Player> myPlayerList) {

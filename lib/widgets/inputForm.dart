@@ -1,14 +1,19 @@
-import 'package:string_validator/string_validator.dart';
-import 'package:gunfight_picker/pages/BracketPage.dart';
-import 'package:gunfight_picker/theme/theme.dart';
-import 'package:gunfight_picker/classes/Player.dart';
 import 'package:flutter/material.dart';
+
+import 'package:string_validator/string_validator.dart';
+import 'package:gunfight_picker/theme/theme.dart';
+import 'package:gunfight_picker/classes/Team.dart';
+import 'package:gunfight_picker/classes/Player.dart';
+import 'package:gunfight_picker/functions/balancingteams.dart';
+import 'package:gunfight_picker/functions/matchingPlayers.dart';
 
 class InputForm extends StatefulWidget {
   List<Player> _players;
+  List<Team> _teams;
   @override
-  InputForm(List<Player> pl) {
+  InputForm(List<Player> pl, List<Team> tl) {
     this._players = pl;
+    this._teams = tl;
   }
   _InputFormState createState() => _InputFormState();
 }
@@ -51,6 +56,36 @@ class _InputFormState extends State<InputForm> {
                 return PlayerCard(this, widget._players[index]);
               }, //ItemBuilder
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                child: AddPlayerButton(this),
+              ),
+              Container(
+                child: IconButton(
+                  onPressed: () {
+                    print("Players: ${widget._players}");
+                    print("Teams: ${widget._teams}");
+                    setState(() {
+                      widget._teams = matchPlayers(widget._players, 2);
+                      // widget._teams = balanceTeams(widget._teams);
+                    });
+                    for (var player in widget._players) {
+                      player.printPl();
+                    }
+                    for (var team in widget._teams) {
+                      for (var player in team.playerList) player.printPl();
+                    }
+                  },
+                  icon: Icon(Icons.check_box),
+                  color: Colors.black45,
+                  splashColor: Colors.lightGreen,
+                  iconSize: 40,
+                ),
+              ),
+            ],
           ),
         ],
       ),
