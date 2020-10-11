@@ -21,7 +21,8 @@ class BracketBuilder extends StatefulWidget {
     // Hardcode  = [Team(), Team()] to test Andrew, Ezra, Hector Widget
 
     this.levels = List<List<Team>>((log(_teams.length) / log(2)).ceil() + 1);
-    for (int i = 0; i < levels.length; i++) levels[i] = List<Team>();
+    for (int i = levels.length - 1; i >= 0; i--)
+      levels[i] = List<Team>(pow(2, i));
     levels[0] = _teams;
   }
   @override
@@ -41,18 +42,20 @@ class _BracketBuilderState extends State<BracketBuilder> {
 class TeamCard extends StatelessWidget {
   Team team;
   _BracketBuilderState bbs;
-  int position;
+  int col, row;
 
-  TeamCard(Team t, _BracketBuilderState b, int index) {
+  TeamCard(Team t, _BracketBuilderState b, int c, int r) {
     team = t;
     bbs = b;
-    position = index;
+    col = c;
+    row = r;
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        enabled: false,
         leading: Icon(
           Icons.circle,
           color: this.team.getTeamColor,
@@ -64,9 +67,9 @@ class TeamCard extends StatelessWidget {
 
         ///subtitle: Text("${this.team.playerList[0]}"),
         onTap: () {
-          if (position + 1 < bbs.widget.levels.length) {
+          if (col + 1 < bbs.widget.levels.length) {
             bbs.setState(() {
-              bbs.widget.levels[position + 1].add(team);
+              bbs.widget.levels[col + 1][(row / 2).floor()] = this.team;
             });
           } else {
             return WinAndResetWidget(bbs.widget.levels);
@@ -130,7 +133,7 @@ class _AndrewAndEzraWidgetState extends State<AndrewAndEzraWidget> {
                   itemCount: widget.level[i].length,
                   itemBuilder: (context, j) {
                     print("Cards/Teams: ${widget.level[i].length}");
-                    return TeamCard(widget.level[i][j], widget.bbs, i);
+                    return TeamCard(widget.level[i][j], widget.bbs, i, j);
                     // return Container(
                     //   color: j % 2 == 0 ? Colors.red : Colors.blue,
                     //   child: TeamCard(widget.level[i][j]),
