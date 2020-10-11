@@ -88,11 +88,19 @@ class _InputFormState extends State<InputForm> {
                       widget._teams = matchPlayers(widget._players, 2);
                       // widget._teams = balanceTeams(widget._teams);
                     });
+
+                    print("Player list:");
                     for (var player in widget._players) {
                       player.printPl();
                     }
+
+                    int i = 1;
+
+                    print("Team list:");
                     for (var team in widget._teams) {
+                      print("Team $i:");
                       for (var player in team.playerList) player.printPl();
+                      i++;
                     }
                   },
                   icon: Icon(Icons.check_box),
