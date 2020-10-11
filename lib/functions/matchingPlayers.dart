@@ -12,7 +12,8 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
   int currentSkill;
 
   for (int i = 0; i < unmatchedPlayers.length; i++) {
-    currentSkill = (unmatchedPlayers[i].getKD * unmatchedPlayers[i].getHours).round();
+    currentSkill =
+        (unmatchedPlayers[i].getKD * unmatchedPlayers[i].getHours).round();
     unmatchedPlayers[i].skill = currentSkill;
 
     print("Player $i skill is $currentSkill");
@@ -33,7 +34,7 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
       }
     }
   }
-  
+
   print("Skills sorted from lowest to highest:");
 
   for (int i = 0; i < unmatchedPlayers.length; i++) {
@@ -46,7 +47,7 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
     teams[i] = new Team();
     teams[i].playerList = new List<Player>();
   }
-  
+
   // algorithm for matching players to teams
 
   int front; // counter starting from least-skilled player (front of unmatchedPlayers)
@@ -63,7 +64,7 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
     while (front < (unmatchedPlayers.length / 2)) {
       teams[k].playerList.add(unmatchedPlayers[front]);
       teams[k].playerList.add(unmatchedPlayers[back]);
-    
+
       front++;
       back--;
       k++;
@@ -74,13 +75,14 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
   // runs if unmatchedPlayers contains an odd number of players
   else {
     front = 0;
-    back = unmatchedPlayers.length - 2; // reserves most skilled player to be on a team by theirself
+    back = unmatchedPlayers.length -
+        2; // reserves most skilled player to be on a team by theirself
     k = 0;
 
     while (front < ((unmatchedPlayers.length - 1) / 2)) {
       teams[k].playerList.add(unmatchedPlayers[front]);
       teams[k].playerList.add(unmatchedPlayers[back]);
-    
+
       front++;
       back--;
       k++;
@@ -90,11 +92,12 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
     // so we need to put the most skilled player on a team by theirself
     teams[k].playerList.add(unmatchedPlayers[unmatchedPlayers.length - 1]);
 
-    print("There is an odd number of players, so the most skilled player has been put on a team by theirself.");
+    print(
+        "There is an odd number of players, so the most skilled player has been put on a team by theirself.");
   }
 
   for (int i = 0; i < teams.length; i++) {
-    teams[i].teamName = militaryAlphabet[i];
+    teams[i].teamName = militaryAlphabet[(i % militaryAlphabet.length)];
     print(teams[i].teamName);
   }
 
