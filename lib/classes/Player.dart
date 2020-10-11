@@ -53,10 +53,15 @@ class Player {
     /*if (isDate(hours))*/ this.hoursPlayed = int.parse(hours);
   }
 
+  // not sure if we need this setter method
+  void set player_skill(int value) {
+    skill = value;
+  }
+
   void printPl() {
     print("Player name: $getName");
     print("Player kd: $getKD");
-    print("Player kd: $getHours");
+    print("Player hours: $getHours");
   }
 
   String get getName {
