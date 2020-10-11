@@ -1,5 +1,6 @@
 import 'package:gunfight_picker/classes/Team.dart';
 import 'package:gunfight_picker/classes/Player.dart';
+import 'package:gunfight_picker/data/militaryAlphabet.dart';
 
 // matches players to teams, assuming team size is 2
 
@@ -90,6 +91,11 @@ List<Team> matchPlayers(List<Player> unmatchedPlayers, int teamSize) {
     teams[k].playerList.add(unmatchedPlayers[unmatchedPlayers.length - 1]);
 
     print("There is an odd number of players, so the most skilled player has been put on a team by theirself.");
+  }
+
+  for (int i = 0; i < teams.length; i++) {
+    teams[i].teamName = militaryAlphabet[i];
+    print(teams[i].teamName);
   }
 
   return teams;
